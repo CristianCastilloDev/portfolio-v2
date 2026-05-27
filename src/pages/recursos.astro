@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { withBase } from '../utils/paths';
 
 // Fetch all posts
 const posts = await getCollection('blog');
@@ -17,7 +18,7 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
     
     <!-- Breadcrumbs -->
     <nav class="flex items-center gap-2 text-xs font-mono text-slate-500 mb-6">
-      <a href="/" class="hover:text-blue-400 transition-colors" data-key="breadcrumb-home">Inicio</a>
+      <a href={withBase('/')} class="hover:text-blue-400 transition-colors" data-key="breadcrumb-home">Inicio</a>
       <span>&gt;</span>
       <span class="text-slate-400" data-key="breadcrumb-lib">Librería de Recursos</span>
     </nav>
@@ -110,7 +111,7 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
           >
             <!-- Interactive Card Cover Image Link with Hover Arrow & Subtle Zoom -->
             <a 
-              href={`/blog/${post.slug}`} 
+              href={withBase(`/blog/${post.slug}`)} 
               class="relative block w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img"
             >
               {post.data.coverImage ? (
@@ -175,7 +176,7 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
             <!-- Dedicated Center Button "Ver Detalles" matching reference -->
             <div class="px-6 pb-6 pt-1">
               <a 
-                href={`/blog/${post.slug}`} 
+                href={withBase(`/blog/${post.slug}`)} 
                 class="block w-full py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 animate-all"
               >
                 Ver Detalles

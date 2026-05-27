@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import { withBase } from '../utils/paths';
 
 // Fetch the blog collection to display featured resources
 const posts = await getCollection('blog');
@@ -92,7 +93,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
             Recursos listos para usar
           </h2>
         </div>
-        <a href="/recursos" class="inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-cyan-400 transition-colors group">
+        <a href={withBase('/recursos')} class="inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-cyan-400 transition-colors group">
           <span data-key="section-recursos-btn">Explorar recursos</span>
           <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -114,7 +115,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
             >
               <!-- Interactive Image Container with Hover Arrow & Subtle Zoom -->
               <a 
-                href={`/blog/${post.slug}`} 
+                href={withBase(`/blog/${post.slug}`)} 
                 class="relative block w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img"
               >
                 {post.data.coverImage ? (
@@ -166,7 +167,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
               <!-- Dedicated details button -->
               <div class="px-6 pb-6 pt-1">
                 <a 
-                  href={`/blog/${post.slug}`} 
+                  href={withBase(`/blog/${post.slug}`)} 
                   class="block w-full py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300"
                 >
                   Ver Detalles
@@ -203,7 +204,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
           <!-- Image cover -->
           <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
             <img 
-              src="/images/cert_security_plus.png" 
+              src={withBase('/images/cert_security_plus.png')} 
               alt="CompTIA Security+"
               class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
             />
@@ -258,7 +259,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
               Inspeccionar
             </button>
             <a 
-              href="/images/cert_security_plus.png" 
+              href={withBase('/images/cert_security_plus.png')} 
               download="Cristian_Castillo_Security_Plus.png"
               class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
               title="Descargar Certificado"
@@ -275,7 +276,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
           <!-- Image cover -->
           <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
             <img 
-              src="/images/cert_ccna.png" 
+              src={withBase('/images/cert_ccna.png')} 
               alt="Cisco CCNA"
               class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
             />
@@ -330,7 +331,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
               Inspeccionar
             </button>
             <a 
-              href="/images/cert_ccna.png" 
+              href={withBase('/images/cert_ccna.png')} 
               download="Cristian_Castillo_CCNA.png"
               class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
               title="Descargar Certificado"
