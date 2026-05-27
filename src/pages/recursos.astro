@@ -1,0 +1,349 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Fetch all posts
+const posts = await getCollection('blog');
+
+// Sort posts by date descending
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Dynamically extract all unique tags from all posts, normalize to lowercase
+const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || []))];
+---
+
+<Layout title="Librería de Recursos | Cristian Castillo" description="Explora habilidades, guías de servidores, ciberseguridad defensiva y laboratorios para potenciar tu flujo de trabajo.">
+  <main class="max-w-6xl mx-auto px-6 py-12 md:py-20 relative">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs font-mono text-slate-500 mb-6">
+      <a href="/" class="hover:text-blue-400 transition-colors" data-key="breadcrumb-home">Inicio</a>
+      <span>&gt;</span>
+      <span class="text-slate-400" data-key="breadcrumb-lib">Librería de Recursos</span>
+    </nav>
+
+    <!-- Header / Title -->
+    <header class="mb-12 space-y-4">
+      <div class="flex items-center gap-3">
+        <!-- Dynamic vertical library/skills icon -->
+        <svg class="w-8 h-8 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+        <h1 class="font-display text-3xl md:text-4xl font-extrabold tracking-tight text-slate-100" data-key="lib-title">
+          Skills, Guías &amp; Recursos
+        </h1>
+      </div>
+      <p class="text-slate-400 text-sm md:text-base font-light leading-relaxed max-w-3xl" data-key="lib-desc">
+        Explora guías de ciberseguridad, automatizaciones, servidores locales y reportes prácticos de Blue Team para expandir tus conocimientos en TI.
+      </p>
+    </header>
+
+    <!-- Filter & Search Controls bar -->
+    <section class="flex flex-col lg:flex-row gap-6 justify-between items-stretch lg:items-center pb-8 border-b border-cyber-border/40 mb-10">
+      
+      <!-- Search Input -->
+      <div class="relative w-full lg:max-w-md">
+        <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+          <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </span>
+        <input 
+          type="text" 
+          id="search-box"
+          placeholder="Buscar recursos..." 
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-900/60 border border-cyber-border/70 rounded-xl text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all font-light"
+        />
+      </div>
+
+      <!-- Pills & Sorting -->
+      <div class="flex items-center gap-4 overflow-x-auto pb-2 lg:pb-0 no-scrollbar font-mono text-xs">
+        
+        <!-- Interactive Recientes Button -->
+        <button 
+          id="recent-sort-btn"
+          class="flex items-center gap-1.5 px-3 py-2 bg-slate-900/40 border border-cyber-border/50 hover:border-blue-500/40 hover:text-blue-400 text-slate-400 rounded-lg whitespace-nowrap transition-colors cursor-pointer"
+          title="Alternar orden cronológico"
+        >
+          <svg class="sort-icon w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+          </svg>
+          <span class="sort-text" data-key="lib-recent">Recientes</span>
+        </button>
+
+        <!-- Vertical Divider -->
+        <div class="h-6 w-[1px] bg-cyber-border/60 hidden sm:block"></div>
+
+        <!-- Tag pills -->
+        <div class="flex gap-2" id="tags-pills-container">
+          {tags.map((tag, idx) => (
+            <button 
+              data-tag={tag.toLowerCase()}
+              data-key={tag === "Todos" ? "lib-todos" : undefined}
+              class:list={[
+                "px-3.5 py-2 rounded-lg border whitespace-nowrap transition-all uppercase text-[10px] font-bold tracking-wider cursor-pointer",
+                idx === 0 
+                  ? "bg-blue-500/10 text-blue-400 border-blue-500/30 active-pill" 
+                  : "bg-slate-900/60 text-slate-400 border-cyber-border hover:border-slate-700 hover:text-slate-200"
+              ]}
+            >
+              {tag === "Todos" ? "Todos" : `⚡ ${tag}`}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid of high-fidelity Cards -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="resources-grid">
+      {sortedPosts.map((post) => {
+        // Collect tags and sanitize them as string to filter
+        const postTagsStr = JSON.stringify((post.data.tags || []).map(t => t.toLowerCase()));
+        return (
+          <div 
+            data-title={post.data.title.toLowerCase()}
+            data-description={post.data.description.toLowerCase()}
+            data-tags={postTagsStr}
+            data-date={post.data.pubDate.toISOString()}
+            data-lang={post.data.lang || "es"}
+            class="resource-card group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full"
+          >
+            <!-- Interactive Card Cover Image Link with Hover Arrow & Subtle Zoom -->
+            <a 
+              href={`/blog/${post.slug}`} 
+              class="relative block w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img"
+            >
+              {post.data.coverImage ? (
+                <img 
+                  src={post.data.coverImage} 
+                  alt={post.data.title}
+                  class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
+                />
+              ) : (
+                <div class="w-full h-full bg-gradient-to-tr from-blue-950 to-cyan-950 flex items-center justify-center">
+                  <svg class="w-12 h-12 text-blue-500/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              )}
+              
+              <!-- Hover Overlay with dynamic slide-up arrow -->
+              <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </div>
+              </div>
+              
+              <!-- Absolute top-left Badge -->
+              <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
+                {post.data.badge || "Tutorial"}
+              </span>
+            </a>
+
+            <!-- Card Content Body -->
+            <div class="p-6 flex flex-col flex-grow space-y-4">
+              <div class="flex-grow space-y-2">
+                <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
+                  {post.data.title}
+                </h3>
+                <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed line-clamp-3">
+                  {post.data.description}
+                </p>
+              </div>
+
+              <!-- Footer Metadata Bar matching the reference -->
+              <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
+                <div class="flex items-center gap-3">
+                  <!-- Date of Publication for Recruiter visibility -->
+                  <span class="flex items-center gap-1.5 text-slate-500" title="Fecha de publicación">
+                    <svg class="w-3.5 h-3.5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <span>{post.data.pubDate.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}</span>
+                  </span>
+                </div>
+                
+                <!-- Green Pill for difficulty matching reference -->
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider">
+                  {post.data.difficulty || "PRINCIPIANTE"}
+                </span>
+              </div>
+            </div>
+
+            <!-- Dedicated Center Button "Ver Detalles" matching reference -->
+            <div class="px-6 pb-6 pt-1">
+              <a 
+                href={`/blog/${post.slug}`} 
+                class="block w-full py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 animate-all"
+              >
+                Ver Detalles
+              </a>
+            </div>
+          </div>
+        );
+      })}
+    </section>
+
+    <!-- Gorgeous "No results found" container -->
+    <section id="no-results" class="hidden text-center py-20 border border-dashed border-cyber-border/60 rounded-3xl space-y-3">
+      <svg class="w-12 h-12 text-slate-600 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <div class="space-y-1">
+        <h3 class="text-slate-300 font-display font-semibold">No se encontraron recursos</h3>
+        <p class="text-xs text-slate-500 font-light">Prueba a buscar con otras palabras o limpia los filtros.</p>
+      </div>
+    </section>
+
+  </main>
+</Layout>
+
+<style>
+  /* Custom utility to fully hide browser scrollbars */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE/Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+</style>
+
+<script>
+  // Pure Vanilla client-side interactive search & filters
+  const searchBox = document.getElementById('search-box') as HTMLInputElement | null;
+  const pillButtons = document.querySelectorAll('#tags-pills-container button');
+  const cards = document.querySelectorAll('#resources-grid .resource-card');
+  const noResults = document.getElementById('no-results');
+  const recentSortBtn = document.getElementById('recent-sort-btn');
+
+  let activeTag = 'todos';
+  let searchQuery = '';
+  let sortAscending = false; // Descending by default (Recent first)
+
+  function filterCards() {
+    let visibleCount = 0;
+    const activeLang = localStorage.getItem('language') || 'es';
+
+    cards.forEach(card => {
+      const cardLang = card.getAttribute('data-lang') || 'es';
+      const title = card.getAttribute('data-title') || '';
+      const description = card.getAttribute('data-description') || '';
+      const tagsJson = card.getAttribute('data-tags') || '[]';
+      
+      let tags: string[] = [];
+      try {
+        tags = JSON.parse(tagsJson);
+      } catch (e) {
+        tags = [];
+      }
+
+      // Check language match!
+      const matchesLang = cardLang === activeLang;
+
+      // Search match query (checks title, description or tags)
+      const matchesSearch = title.includes(searchQuery) || 
+                            description.includes(searchQuery) || 
+                            tags.some(t => t.includes(searchQuery));
+      
+      // Tag match query
+      const matchesTag = activeTag === 'todos' || tags.includes(activeTag);
+
+      if (matchesLang && matchesSearch && matchesTag) {
+        card.classList.remove('hidden');
+        card.classList.add('flex');
+        visibleCount++;
+      } else {
+        card.classList.remove('flex');
+        card.classList.add('hidden');
+      }
+    });
+
+    // Check if we should display "no results" placeholder
+    if (visibleCount === 0) {
+      noResults?.classList.remove('hidden');
+      noResults?.classList.add('block');
+    } else {
+      noResults?.classList.add('hidden');
+      noResults?.classList.remove('block');
+    }
+  }
+
+  // Helper to update sorting button text correctly according to active language
+  function updateSortText() {
+    const textSpan = recentSortBtn?.querySelector('.sort-text');
+    const activeLang = localStorage.getItem('language') || 'es';
+    if (textSpan) {
+      if (sortAscending) {
+        textSpan.textContent = activeLang === 'es' ? 'Antiguos' : 'Oldest';
+      } else {
+        textSpan.textContent = activeLang === 'es' ? 'Recientes' : 'Recent';
+      }
+    }
+  }
+
+  // Handle global language changes to translate sorting dynamic labels and re-filter list
+  window.addEventListener('languageChanged', () => {
+    updateSortText();
+    filterCards();
+  });
+
+  // Sorting Handler
+  recentSortBtn?.addEventListener('click', () => {
+    sortAscending = !sortAscending;
+
+    updateSortText();
+
+    if (sortAscending) {
+      recentSortBtn.classList.remove('text-slate-400');
+      recentSortBtn.classList.add('text-blue-400', 'border-blue-500/30', 'bg-blue-500/10');
+    } else {
+      recentSortBtn.classList.add('text-slate-400');
+      recentSortBtn.classList.remove('text-blue-400', 'border-blue-500/30', 'bg-blue-500/10');
+    }
+
+    // Sort cards array
+    const cardsArray = Array.from(cards);
+    cardsArray.sort((a, b) => {
+      const dateA = new Date(a.getAttribute('data-date') || 0).getTime();
+      const dateB = new Date(b.getAttribute('data-date') || 0).getTime();
+      return sortAscending ? dateA - dateB : dateB - dateA;
+    });
+
+    // Re-append sorted cards to DOM
+    const grid = document.getElementById('resources-grid');
+    if (grid) {
+      cardsArray.forEach(card => grid.appendChild(card));
+    }
+  });
+
+  // Bind search box input
+  searchBox?.addEventListener('input', (e) => {
+    searchQuery = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    filterCards();
+  });
+
+  // Bind tag pills clicks
+  pillButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active states from other pills
+      pillButtons.forEach(btn => {
+        btn.classList.remove('bg-blue-500/10', 'text-blue-400', 'border-blue-500/30', 'active-pill');
+        btn.classList.add('bg-slate-900/60', 'text-slate-400', 'border-cyber-border');
+      });
+
+      // Add active state to clicked pill
+      button.classList.remove('bg-slate-900/60', 'text-slate-400', 'border-cyber-border');
+      button.classList.add('bg-blue-500/10', 'text-blue-400', 'border-blue-500/30', 'active-pill');
+
+      activeTag = button.getAttribute('data-tag') || 'todos';
+      filterCards();
+    });
+  });
+
+  // Run initial sort translation sync and filters on load
+  updateSortText();
+  filterCards();
+</script>

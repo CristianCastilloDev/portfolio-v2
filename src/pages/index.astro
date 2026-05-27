@@ -1,0 +1,623 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+// Fetch the blog collection to display featured resources
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+// We pass all posts to let client-side filter handle showing the top 3 of the active language!
+---
+
+<Layout>
+  <!-- Main Content wrapper -->
+  <main class="max-w-6xl mx-auto px-6 py-12 md:py-20 relative space-y-20 md:space-y-28">
+    
+    <!-- 1. HERO & SOBRE MÍ SECTION -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative">
+      <div class="lg:col-span-8 space-y-6">
+        <!-- Decorative badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold font-mono mb-2 animate-pulse-slow">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+          <span data-key="hero-badge">ENTORNO SEGURO INICIADO // SOBRE MÍ</span>
+        </div>
+        
+        <h1 class="font-display text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+          <span data-key="hero-title">Hola, soy Cristian Castillo</span>
+        </h1>
+        
+        <p class="text-lg md:text-xl text-slate-400 leading-relaxed font-light" data-key="hero-subtitle">
+          Especialista en Infraestructura, Redes y Ciberseguridad (Blue Team). Me apasiona construir entornos de virtualización robustos, automatizar laboratorios domésticos y asegurar infraestructuras críticas contra ciberamenazas modernas.
+        </p>
+
+        <!-- Dynamic short bio/vision -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 text-sm text-slate-400 font-light border-t border-cyber-border/40">
+          <div class="space-y-2">
+            <h3 class="text-slate-200 font-display font-bold flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+              <span data-key="focus-blue">Enfoque Blue Team</span>
+            </h3>
+            <p data-key="focus-blue-desc">
+              Auditoría activa, análisis de registros con Wazuh SIEM, bastionado de servidores y configuración de firewalls perimetrales para detección proactiva de anomalías.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <h3 class="text-slate-200 font-display font-bold flex items-center gap-2">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span data-key="focus-infra">Infraestructura Virtual</span>
+            </h3>
+            <p data-key="focus-infra-desc">
+              Despliegue y orquestación de servicios mediante Proxmox VE, automatización del stack multimedia con Docker y optimización de redes seguras de alto rendimiento.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Shield Visual & Quick Certs Card -->
+      <div class="lg:col-span-4 flex flex-col items-center justify-center gap-6">
+        <div class="relative w-36 h-36 flex items-center justify-center bg-slate-900/60 rounded-3xl border border-blue-500/30 shadow-[0_0_35px_rgba(59,130,246,0.15)] group hover:border-cyan-400/50 transition-all duration-500">
+          <!-- Shield SVG -->
+          <svg class="w-20 h-20 text-blue-400 group-hover:text-cyan-400 transition-colors duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+          </svg>
+          <div class="absolute -inset-0.5 rounded-3xl bg-gradient-to-tr from-blue-500 to-cyan-400 opacity-20 blur-sm group-hover:opacity-40 transition duration-500 -z-10 animate-pulse"></div>
+        </div>
+
+        <!-- Tech tags -->
+        <div class="flex gap-2 flex-wrap justify-center max-w-sm">
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.06)]">
+            CompTIA Sec+
+          </span>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.06)]">
+            Docker &amp; Proxmox
+          </span>
+          <span class="px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.06)]">
+            Wazuh / SIEM
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Visual Cyber Separator 1 -->
+    <div class="relative py-4 flex items-center justify-center">
+      <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-cyber-border/75 to-transparent"></div>
+      <div class="absolute w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)] border border-cyber-dark"></div>
+    </div>
+
+    <!-- 2. RECURSOS LISTOS PARA USAR SECTION -->
+    <section class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <span class="text-xs font-semibold font-mono tracking-widest text-indigo-400 uppercase" data-key="section-recursos-label">RECURSOS</span>
+          <h2 class="font-display text-3xl md:text-4xl font-extrabold text-slate-100 tracking-tight" data-key="section-recursos-title">
+            Recursos listos para usar
+          </h2>
+        </div>
+        <a href="/recursos" class="inline-flex items-center gap-2 text-sm font-semibold text-indigo-400 hover:text-cyan-400 transition-colors group">
+          <span data-key="section-recursos-btn">Explorar recursos</span>
+          <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Recursos Dynamic Grid matching resources list cards exactly -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="featured-resources-grid">
+        {sortedPosts.length === 0 ? (
+          <div class="col-span-full text-center py-12 border border-dashed border-cyber-border/60 rounded-3xl">
+            <p class="text-slate-500 font-mono text-sm">Próximamente más recursos de laboratorio.</p>
+          </div>
+        ) : (
+          sortedPosts.map((post) => (
+            <div 
+              data-lang={post.data.lang || "es"}
+              class="featured-resource-card group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full"
+            >
+              <!-- Interactive Image Container with Hover Arrow & Subtle Zoom -->
+              <a 
+                href={`/blog/${post.slug}`} 
+                class="relative block w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img"
+              >
+                {post.data.coverImage ? (
+                  <img 
+                    src={post.data.coverImage} 
+                    alt={post.data.title}
+                    class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
+                  />
+                ) : (
+                  <div class="w-full h-full bg-gradient-to-tr from-blue-950 to-cyan-950 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-blue-500/30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  </div>
+                )}
+                
+                <!-- Hover Overlay with dynamic slide-up arrow -->
+                <div class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Top Badge -->
+                <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
+                  {post.data.badge || "Tutorial"}
+                </span>
+              </a>
+
+              <!-- Content wrapper -->
+              <div class="p-6 flex flex-col flex-grow space-y-4">
+                <div class="flex-grow space-y-2">
+                  <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300 line-clamp-2">
+                    {post.data.title}
+                  </h3>
+                  <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed line-clamp-3">
+                    {post.data.description}
+                  </p>
+                </div>
+
+                <!-- Footer difficulty badge matching resources page -->
+                <div class="flex items-center justify-end text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider">
+                    {post.data.difficulty || "PRINCIPIANTE"}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Dedicated details button -->
+              <div class="px-6 pb-6 pt-1">
+                <a 
+                  href={`/blog/${post.slug}`} 
+                  class="block w-full py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300"
+                >
+                  Ver Detalles
+                </a>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </section>
+
+    <!-- Visual Cyber Separator 2 -->
+    <div class="relative py-4 flex items-center justify-center">
+      <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-cyber-border/75 to-transparent"></div>
+      <div class="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] border border-cyber-dark"></div>
+    </div>
+
+    <!-- 3. CERTIFICACIONES SECTION -->
+    <section class="space-y-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <span class="text-xs font-semibold font-mono tracking-widest text-emerald-400 uppercase" data-key="section-certs-label">CERTIFICACIONES</span>
+          <h2 class="font-display text-3xl md:text-4xl font-extrabold text-slate-100 tracking-tight" data-key="section-certs-title">
+            Certificaciones Profesionales
+          </h2>
+        </div>
+      </div>
+
+      <!-- Certifications Grid with same styles as blog cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Cert 1: CompTIA Security+ -->
+        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
+          <!-- Image cover -->
+          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
+            <img 
+              src="/images/cert_security_plus.png" 
+              alt="CompTIA Security+"
+              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
+            />
+            
+            <!-- Hover overlay showing inspect button -->
+            <button 
+              onclick="openCertModal('CompTIA Security+', '/images/cert_security_plus.png', 'Código de validación: SEC-9948271', 'https://www.credly.com/')" 
+              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+            >
+              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                <!-- Eye SVG for inspection -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+            </button>
+
+            <!-- Badge -->
+            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
+              SECURITY
+            </span>
+          </div>
+
+          <!-- Content wrapper -->
+          <div class="p-6 flex flex-col flex-grow space-y-4">
+            <div class="flex-grow space-y-2">
+              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-sec-title">
+                CompTIA Security+
+              </h3>
+              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-sec-desc">
+                Certificación internacional que valida las habilidades fundamentales para realizar funciones de seguridad centrales y seguir una carrera en seguridad de TI.
+              </p>
+            </div>
+
+            <!-- Footer Meta -->
+            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
+              <span class="text-slate-500">CompTIA</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 tracking-wider" data-key="cert-status-preparing">
+                PREPARANDO
+              </span>
+            </div>
+          </div>
+
+          <!-- Dedicated action button -->
+          <div class="px-6 pb-6 pt-1 flex gap-3">
+            <button 
+              onclick="openCertModal('CompTIA Security+', '/images/cert_security_plus.png', 'Código de validación: SEC-9948271', 'https://www.credly.com/')"
+              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
+              data-key="cert-btn-view"
+            >
+              Inspeccionar
+            </button>
+            <a 
+              href="/images/cert_security_plus.png" 
+              download="Cristian_Castillo_Security_Plus.png"
+              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
+              title="Descargar Certificado"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Cert 2: Cisco CCNA -->
+        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
+          <!-- Image cover -->
+          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
+            <img 
+              src="/images/cert_ccna.png" 
+              alt="Cisco CCNA"
+              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
+            />
+            
+            <!-- Hover overlay showing inspect button -->
+            <button 
+              onclick="openCertModal('Cisco CCNA (200-301)', '/images/cert_ccna.png', 'Código de validación: CCNA-8849201', 'https://www.credly.com/')" 
+              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+            >
+              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                <!-- Eye SVG for inspection -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+            </button>
+
+            <!-- Badge -->
+            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
+              NETWORKING
+            </span>
+          </div>
+
+          <!-- Content wrapper -->
+          <div class="p-6 flex flex-col flex-grow space-y-4">
+            <div class="flex-grow space-y-2">
+              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-ccna-title">
+                Cisco Certified Network Associate (CCNA)
+              </h3>
+              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-ccna-desc">
+                Certificación que cubre una amplia gama de fundamentos de TI, incluyendo tecnologías IP, seguridad, enrutamiento, conmutación y automatización de redes.
+              </p>
+            </div>
+
+            <!-- Footer Meta -->
+            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
+              <span class="text-slate-500">Cisco</span>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider" data-key="cert-status-complete">
+                COMPLETO
+              </span>
+            </div>
+          </div>
+
+          <!-- Dedicated action button -->
+          <div class="px-6 pb-6 pt-1 flex gap-3">
+            <button 
+              onclick="openCertModal('Cisco CCNA (200-301)', '/images/cert_ccna.png', 'Código de validación: CCNA-8849201', 'https://www.credly.com/')"
+              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
+              data-key="cert-btn-view"
+            >
+              Inspeccionar
+            </button>
+            <a 
+              href="/images/cert_ccna.png" 
+              download="Cristian_Castillo_CCNA.png"
+              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
+              title="Descargar Certificado"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Visual Cyber Separator 2.5 -->
+    <div class="relative py-4 flex items-center justify-center">
+      <div class="h-[1px] w-full bg-gradient-to-r from-transparent via-cyber-border/75 to-transparent"></div>
+      <div class="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(6,182,212,0.8)] border border-cyber-dark"></div>
+    </div>
+
+    <!-- 3. HERRAMIENTAS QUE DOMINO SECTION -->
+    <section class="space-y-12 relative">
+      <div class="text-center space-y-3">
+        <span class="text-xs font-semibold font-mono tracking-widest text-cyan-400 uppercase" data-key="section-tools-label">HERRAMIENTAS</span>
+        <h2 class="font-display text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-100 tracking-tight" data-key="section-tools-title">
+          Domina las herramientas del futuro
+        </h2>
+      </div>
+
+      <!-- 4x2 Tools Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Tool 1: Wazuh SIEM -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-blue-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mx-auto group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-blue-400 transition-colors" data-key="tool-wazuh">Wazuh &amp; SIEM</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-wazuh-desc">Monitorización y respuesta activa</p>
+          </div>
+        </div>
+
+        <!-- Tool 2: Docker -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-cyan-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400 mx-auto group-hover:scale-110 group-hover:bg-cyan-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-cyan-400 transition-colors" data-key="tool-docker">Docker &amp; Portainer</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-docker-desc">Contenedores y orquestación rápida</p>
+          </div>
+        </div>
+
+        <!-- Tool 3: Proxmox VE -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-amber-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mx-auto group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-amber-400 transition-colors" data-key="tool-proxmox">Proxmox VE</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-proxmox-desc">Virtualización homelab e hipervisores</p>
+          </div>
+        </div>
+
+        <!-- Tool 4: Scripting -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-emerald-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mx-auto group-hover:scale-110 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-emerald-400 transition-colors" data-key="tool-scripting">Python &amp; Bash</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-scripting-desc">Scripting y automatización defensiva</p>
+          </div>
+        </div>
+
+        <!-- Tool 5: Network -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-violet-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-violet-500/10 border border-violet-500/20 flex items-center justify-center text-violet-400 mx-auto group-hover:scale-110 group-hover:bg-violet-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-violet-400 transition-colors" data-key="tool-net">Redes y VPNs</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-net-desc">pfSense, WireGuard y subredes</p>
+          </div>
+        </div>
+
+        <!-- Tool 6: Certs -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-pink-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400 mx-auto group-hover:scale-110 group-hover:bg-pink-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m-5 4v1a3 3 0 003 3h1.5m-1.5-6h.01M19 12a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-pink-400 transition-colors" data-key="tool-certs">CompTIA Sec+</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-certs-desc">Principios fundamentales de ciberseguridad</p>
+          </div>
+        </div>
+
+        <!-- Tool 7: Web Dev -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-teal-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 mx-auto group-hover:scale-110 group-hover:bg-teal-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-teal-400 transition-colors" data-key="tool-web">Desarrollo Web</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-web-desc">Astro, Tailwind CSS y APIs RESTful</p>
+          </div>
+        </div>
+
+        <!-- Tool 8: Hardening -->
+        <div class="group bg-cyber-card/30 backdrop-blur-sm border border-cyber-border/50 rounded-2xl p-6 text-center space-y-4 hover:bg-cyber-card/65 hover:border-yellow-500/30 transition-all duration-500">
+          <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-yellow-400 mx-auto group-hover:scale-110 group-hover:bg-yellow-500 group-hover:text-white transition-all duration-500">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+          </div>
+          <div class="space-y-1">
+            <h3 class="font-display font-bold text-slate-200 group-hover:text-yellow-400 transition-colors" data-key="tool-hard">Linux Hardening</h3>
+            <p class="text-xs text-slate-400 font-light" data-key="tool-hard-desc">Bastionado, IPTables y auditoría de kernel</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Certifications Floating Modal with ultra-premium blur and animations -->
+  <div 
+    id="cert-modal" 
+    class="fixed inset-0 z-[100] hidden items-center justify-center px-4 bg-slate-950/85 backdrop-blur-md transition-all duration-300"
+    onclick="closeCertModal()"
+  >
+    <div 
+      class="relative w-full max-w-3xl bg-cyber-card border border-cyber-border rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(59,130,246,0.25)] flex flex-col max-h-[90vh] transform scale-95 opacity-0 transition-all duration-300"
+      onclick="event.stopPropagation()"
+    >
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-6 border-b border-cyber-border/40">
+        <h3 id="modal-cert-title" class="font-display text-xl font-bold text-slate-100">
+          Detalles de Certificación
+        </h3>
+        <button 
+          onclick="closeCertModal()" 
+          class="text-slate-400 hover:text-red-400 transition-colors p-1.5 rounded-lg bg-slate-900/50 border border-cyber-border/30 hover:border-red-500/30 cursor-pointer"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-6 flex-grow flex flex-col md:flex-row gap-6">
+        <!-- Left: Full Certificate preview -->
+        <div class="w-full md:w-2/3 aspect-video bg-slate-950 border border-cyber-border/50 rounded-2xl overflow-hidden flex items-center justify-center">
+          <img 
+            id="modal-cert-img" 
+            src="" 
+            alt="Certificado"
+            class="w-full h-full object-cover"
+          />
+        </div>
+
+        <!-- Right: Verification Details & Action Buttons -->
+        <div class="w-full md:w-1/3 flex flex-col justify-between gap-6">
+          <div class="space-y-4">
+            <h4 class="text-xs font-semibold font-mono tracking-widest text-blue-400 uppercase">VALIDACIÓN</h4>
+            <p id="modal-cert-desc" class="text-sm font-mono text-slate-400 bg-slate-950/40 p-4 rounded-xl border border-cyber-border/30 leading-relaxed break-words">
+              Código de verificación.
+            </p>
+          </div>
+
+          <!-- Action buttons -->
+          <div class="space-y-3">
+            <a 
+              id="modal-cert-verify-link"
+              href="" 
+              target="_blank" 
+              class="block w-full py-2.5 text-center text-sm font-semibold bg-blue-500 hover:bg-blue-600 text-white rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.3)] transition-all font-sans"
+            >
+              Verificar Credencial
+            </a>
+            <a 
+              id="modal-cert-download"
+              href="" 
+              download 
+              class="block w-full py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
+            >
+              Descargar Archivo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</Layout>
+
+<script>
+  // Pure Vanilla client-side interactive lang filtering for featured cards
+  const cards = document.querySelectorAll('.featured-resource-card');
+
+  function filterFeaturedCards() {
+    const activeLang = localStorage.getItem('language') || 'es';
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+      const cardLang = card.getAttribute('data-lang') || 'es';
+      // Only display matching language and up to 3 cards
+      if (cardLang === activeLang && visibleCount < 3) {
+        card.classList.remove('hidden');
+        card.classList.add('flex');
+        visibleCount++;
+      } else {
+        card.classList.remove('flex');
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  // Run on load
+  filterFeaturedCards();
+
+  // Run on language changes
+  window.addEventListener('languageChanged', () => {
+    filterFeaturedCards();
+  });
+
+  // Modal toggle scripts attached to window securely for global access
+  (window as any).openCertModal = function(title: string, imgSrc: string, desc: string, verifyLink: string) {
+    const modal = document.getElementById('cert-modal');
+    const modalContent = modal?.querySelector('div');
+    const mTitle = document.getElementById('modal-cert-title');
+    const mImg = document.getElementById('modal-cert-img') as HTMLImageElement;
+    const mDesc = document.getElementById('modal-cert-desc');
+    const mVerify = document.getElementById('modal-cert-verify-link') as HTMLAnchorElement;
+    const mDownload = document.getElementById('modal-cert-download') as HTMLAnchorElement;
+
+    if (modal && modalContent) {
+      if (mTitle) mTitle.textContent = title;
+      if (mImg) mImg.src = imgSrc;
+      if (mDesc) mDesc.textContent = desc;
+      if (mVerify) mVerify.href = verifyLink;
+      if (mDownload) {
+        mDownload.href = imgSrc;
+        mDownload.setAttribute('download', `${title.replace(/\s+/g, '_')}.png`);
+      }
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      
+      // Animate opening
+      setTimeout(() => {
+        modalContent.classList.remove('scale-95', 'opacity-0');
+        modalContent.classList.add('scale-100', 'opacity-100');
+      }, 50);
+    }
+  };
+
+  (window as any).closeCertModal = function() {
+    const modal = document.getElementById('cert-modal');
+    const modalContent = modal?.querySelector('div');
+
+    if (modal && modalContent) {
+      modalContent.classList.remove('scale-100', 'opacity-100');
+      modalContent.classList.add('scale-95', 'opacity-0');
+      
+      // Delay to complete CSS transition
+      setTimeout(() => {
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+      }, 250);
+    }
+  };
+</script>

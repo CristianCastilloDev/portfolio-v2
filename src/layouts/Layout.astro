@@ -1,0 +1,330 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = "Cristian Castillo | Ciberseguridad & Desarrollo", 
+  description = "Especialista en Infraestructura, Redes y Ciberseguridad (Blue Team). Me apasiona construir soluciones robustas, automatizar servidores y asegurar entornos." 
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const isHome = pathname === "/" || pathname === "/index.html" || pathname === "";
+const isBlogOrRecursos = pathname.startsWith("/recursos") || pathname.startsWith("/blog");
+---
+
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    
+    <!-- Prevent language translation flickering (FOTC) before paint -->
+    <script is:inline>
+      (function() {
+        const savedLang = localStorage.getItem('language') || 'es';
+        const style = document.createElement('style');
+        style.id = 'lang-flicker-style';
+        style.innerHTML = `
+          [data-lang]:not([data-lang="${savedLang}"]) {
+            display: none !important;
+          }
+        `;
+        document.head.appendChild(style);
+      })();
+    </script>
+
+    <!-- SEO Meta Tags -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  </head>
+  <body class="text-slate-100 font-sans antialiased min-h-screen relative overflow-x-hidden selection:bg-cyan-500/30 selection:text-cyan-200">
+    
+    <!-- Background cyber grid & glow effects -->
+    <div class="absolute inset-0 -z-10 cyber-grid opacity-70"></div>
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] -z-10 bg-[radial-gradient(circle,rgba(59,130,246,0.12),transparent_70%)] blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-20 left-0 w-[600px] h-[600px] -z-10 bg-[radial-gradient(circle,rgba(6,182,212,0.08),transparent_70%)] blur-3xl pointer-events-none"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 backdrop-blur-md bg-cyber-dark/65 border-b border-cyber-border/60 transition-all duration-300">
+      <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="/" class="group flex items-center gap-2 font-display text-xl font-extrabold tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+          <span class="text-blue-500 font-mono group-hover:text-cyan-400 transition-colors">&lt;</span>krissdev<span class="text-cyan-400 font-mono group-hover:text-blue-500 transition-colors">/&gt;</span>
+        </a>
+        <div class="flex items-center gap-6 text-sm font-medium">
+          <a 
+            href="/" 
+            data-key="nav-home"
+            class:list={[
+              "relative py-1 transition-all rounded",
+              isHome 
+                ? "text-blue-400 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-400" 
+                : "text-slate-400 hover:text-slate-200"
+            ]}
+          >
+            Inicio
+          </a>
+          <a 
+            href="/recursos" 
+            data-key="nav-blog"
+            class:list={[
+              "relative py-1 transition-all rounded",
+              isBlogOrRecursos 
+                ? "text-blue-400 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-400" 
+                : "text-slate-400 hover:text-slate-200"
+            ]}
+          >
+            Recursos &amp; Blog
+          </a>
+
+          <!-- Functional interactive Toggles wrapper -->
+          <div class="flex items-center gap-4 border-l border-cyber-border/60 pl-6 ml-2">
+            <!-- Translator ES/EN Switcher Button -->
+            <button 
+              id="lang-toggler" 
+              class="flex items-center gap-1 text-xs font-mono font-bold text-slate-400 hover:text-blue-400 transition-colors uppercase cursor-pointer"
+              title="Change language / Cambiar idioma"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 0A18.015 18.015 0 0110 14.588M10 14.588A18.022 18.022 0 017.588 9M10 14.588l-4.5 4.5M6.412 9A18.015 18.015 0 003 15M10.5 21l3.5-7 3.5 7M12.5 19h3.5" />
+              </svg>
+              <span id="lang-text">ES</span>
+            </button>
+
+            <!-- Light/Dark Mode Switcher Button -->
+            <button 
+              id="theme-toggler" 
+              class="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer flex items-center justify-center"
+              title="Toggle theme / Alternar tema"
+            >
+              <!-- Sun icon -->
+              <svg id="theme-sun" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m0-12.728l.707.707m12.728 12.728l.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z" />
+              </svg>
+              <!-- Moon icon -->
+              <svg id="theme-moon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Slot -->
+    <slot />
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-cyber-border/40 py-10 bg-cyber-dark/80 relative">
+      <div class="max-w-4xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-slate-500">
+        <div data-key="footer-copy">
+          &copy; {new Date().getFullYear()} Cristian Castillo. Todo bajo protección criptográfica y buenas prácticas.
+        </div>
+        <div class="flex gap-4 font-mono text-xs">
+          <span class="text-blue-500/60">SYSTEM: ONLINE</span>
+          <span class="text-cyan-500/60">PORTFOLIO V2.0</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Global Client Scripts for Theme and Translator -->
+    <script is:inline>
+      // 1. THEME MANAGEMENT SYSTEM
+      const themeToggler = document.getElementById('theme-toggler');
+      const themeSun = document.getElementById('theme-sun');
+      const themeMoon = document.getElementById('theme-moon');
+
+      // Initialize theme from localStorage or default to dark
+      const savedTheme = localStorage.getItem('theme') || 'dark';
+      if (savedTheme === 'light') {
+        document.documentElement.classList.remove('dark');
+        themeSun?.classList.remove('hidden');
+        themeMoon?.classList.add('hidden');
+      } else {
+        document.documentElement.classList.add('dark');
+        themeSun?.classList.add('hidden');
+        themeMoon?.classList.remove('hidden');
+      }
+
+      themeToggler?.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.contains('dark');
+        if (isDark) {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+          themeSun?.classList.remove('hidden');
+          themeMoon?.classList.add('hidden');
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+          themeSun?.classList.add('hidden');
+          themeMoon?.classList.remove('hidden');
+        }
+      });
+
+      // 2. MULTILINGUAL TRANSLATION DICTIONARY
+      const TRANSLATIONS = {
+        es: {
+          "nav-home": "Inicio",
+          "nav-blog": "Recursos & Blog",
+          "hero-badge": "ENTORNO SEGURO INICIADO // SOBRE MÍ",
+          "hero-title": "Hola, soy Cristian Castillo",
+          "hero-subtitle": "Especialista en Infraestructura, Redes y Ciberseguridad (Blue Team). Me apasiona construir entornos de virtualización robustos, automatizar laboratorios domésticos y asegurar infraestructuras críticas contra ciberamenazas modernas.",
+          "focus-blue": "Enfoque Blue Team",
+          "focus-blue-desc": "Auditoría activa, análisis de registros con Wazuh SIEM, bastionado de servidores y configuración de firewalls perimetrales para detección proactiva de anomalías.",
+          "focus-infra": "Infraestructura Virtual",
+          "focus-infra-desc": "Despliegue y orquestación de servicios mediante Proxmox VE, automatización del stack multimedia con Docker y optimización de redes seguras de alto rendimiento.",
+          "section-recursos-label": "RECURSOS",
+          "section-recursos-title": "Recursos listos para usar",
+          "section-recursos-btn": "Explorar recursos",
+          "section-tools-label": "HERRAMIENTAS",
+          "section-tools-title": "Domina las herramientas del futuro",
+          "tool-wazuh": "Wazuh & SIEM",
+          "tool-wazuh-desc": "Monitorización y respuesta activa",
+          "tool-docker": "Docker & Portainer",
+          "tool-docker-desc": "Contenedores y orquestación rápida",
+          "tool-proxmox": "Proxmox VE",
+          "tool-proxmox-desc": "Virtualización homelab e hipervisores",
+          "tool-scripting": "Python & Bash",
+          "tool-scripting-desc": "Scripting y automatización defensiva",
+          "tool-net": "Redes y VPNs",
+          "tool-net-desc": "pfSense, WireGuard y subredes",
+          "tool-certs": "CompTIA Sec+",
+          "tool-certs-desc": "Principios fundamentales de ciberseguridad",
+          "tool-web": "Desarrollo Web",
+          "tool-web-desc": "Astro, Tailwind CSS y APIs RESTful",
+          "tool-hard": "Linux Hardening",
+          "tool-hard-desc": "Bastionado, IPTables y auditoría de kernel",
+          "section-certs-label": "CERTIFICACIONES",
+          "section-certs-title": "Certificaciones Profesionales",
+          "cert-sec-title": "CompTIA Security+",
+          "cert-sec-desc": "Certificación internacional que valida las habilidades fundamentales para realizar funciones de seguridad centrales y seguir una carrera en seguridad de TI.",
+          "cert-ccna-title": "Cisco Certified Network Associate (CCNA)",
+          "cert-ccna-desc": "Certificación que cubre una amplia gama de fundamentos de TI, incluyendo tecnologías IP, seguridad, enrutamiento, conmutación y automatización de redes.",
+          "cert-btn-view": "Inspeccionar",
+          "cert-status-complete": "COMPLETO",
+          "cert-status-preparing": "PREPARANDO",
+          "footer-copy": "© 2026 Cristian Castillo. Todo bajo protección criptográfica y buenas prácticas.",
+          "breadcrumb-home": "Inicio",
+          "breadcrumb-lib": "Librería de Recursos",
+          "lib-title": "Skills, Guías & Recursos",
+          "lib-desc": "Explora guías de ciberseguridad, automatizaciones, servidores locales y reportes prácticos de Blue Team para expandir tus conocimientos en TI.",
+          "lib-search": "Buscar recursos...",
+          "lib-recent": "Recientes",
+          "lib-oldest": "Antiguos",
+          "lib-todos": "Todos"
+        },
+        en: {
+          "nav-home": "Home",
+          "nav-blog": "Resources & Blog",
+          "hero-badge": "SECURE ENVIRONMENT INITIATED // ABOUT ME",
+          "hero-title": "Hi, I'm Cristian Castillo",
+          "hero-subtitle": "Infrastructure, Networks and Cybersecurity (Blue Team) Specialist. Passionate about building robust systems, automating servers and securing critical networks.",
+          "focus-blue": "Blue Team Focus",
+          "focus-blue-desc": "Active auditing, log analysis with Wazuh SIEM, server hardening, and edge firewall setups for proactive threat detection.",
+          "focus-infra": "Virtual Infrastructure",
+          "focus-infra-desc": "Service deployment and orchestration using Proxmox VE, media stack automation with Docker, and high-performance secure network design.",
+          "section-recursos-label": "RESOURCES",
+          "section-recursos-title": "Ready-to-Use Resources",
+          "section-recursos-btn": "Explore resources",
+          "section-tools-label": "TOOLS",
+          "section-tools-title": "Master the Tools of the Future",
+          "tool-wazuh": "Wazuh & SIEM",
+          "tool-wazuh-desc": "Active monitoring and incident response",
+          "tool-docker": "Docker & Portainer",
+          "tool-docker-desc": "Containers and fast orchestration",
+          "tool-proxmox": "Proxmox VE",
+          "tool-proxmox-desc": "Homelab virtualization and hypervisors",
+          "tool-scripting": "Python & Bash",
+          "tool-scripting-desc": "Scripting and defensive automation",
+          "tool-net": "Redes y VPNs",
+          "tool-net-desc": "pfSense, WireGuard and subnets",
+          "tool-certs": "CompTIA Sec+",
+          "tool-certs-desc": "Core principles of cybersecurity",
+          "tool-web": "Web Development",
+          "tool-web-desc": "Astro, Tailwind CSS and RESTful APIs",
+          "tool-hard": "Linux Hardening",
+          "tool-hard-desc": "Hardening, IPTables and kernel auditing",
+          "section-certs-label": "CERTIFICATIONS",
+          "section-certs-title": "Professional Certifications",
+          "cert-sec-title": "CompTIA Security+",
+          "cert-sec-desc": "International certification validating foundational skills for performing core security functions and pursuing an IT security career.",
+          "cert-ccna-title": "Cisco Certified Network Associate (CCNA)",
+          "cert-ccna-desc": "Certification covering a broad range of IT fundamentals, including IP technologies, security, routing, switching, and network automation.",
+          "cert-btn-view": "Inspect",
+          "cert-status-complete": "COMPLETED",
+          "cert-status-preparing": "PREPARING",
+          "footer-copy": "© 2026 Cristian Castillo. Crypto-secured and best practices applied.",
+          "breadcrumb-home": "Home",
+          "breadcrumb-lib": "Resources Library",
+          "lib-title": "Skills, Guides & Resources",
+          "lib-desc": "Explore cybersecurity guides, automations, local servers, and practical Blue Team reports to expand your IT knowledge.",
+          "lib-search": "Search resources...",
+          "lib-recent": "Recent",
+          "lib-oldest": "Oldest",
+          "lib-todos": "All"
+        }
+      };
+
+      const langToggler = document.getElementById('lang-toggler');
+      const langText = document.getElementById('lang-text');
+
+      function applyTranslations(lang) {
+        // Toggle active visual text
+        if (langText) {
+          langText.textContent = lang === 'es' ? 'ES' : 'EN';
+        }
+
+        // Dynamically update FOUC prevention style in head
+        let styleNode = document.getElementById('lang-flicker-style');
+        if (styleNode) {
+          styleNode.innerHTML = `
+            [data-lang]:not([data-lang="${lang}"]) {
+              display: none !important;
+            }
+          `;
+        }
+
+        // Apply translations to all DOM elements with data-key
+        const translatableElements = document.querySelectorAll('[data-key]');
+        translatableElements.forEach(elem => {
+          const key = elem.getAttribute('data-key');
+          if (key && TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) {
+            elem.textContent = TRANSLATIONS[lang][key];
+          }
+        });
+
+        // Translate specific input placeholder if present
+        const searchInput = document.getElementById('search-box');
+        if (searchInput) {
+          searchInput.placeholder = lang === 'es' ? 'Buscar recursos...' : 'Search resources...';
+        }
+      }
+
+      // Initialize language from localStorage or browser settings
+      const savedLang = localStorage.getItem('language') || 'es';
+      applyTranslations(savedLang);
+
+      langToggler?.addEventListener('click', () => {
+        const currentLang = localStorage.getItem('language') || 'es';
+        const nextLang = currentLang === 'es' ? 'en' : 'es';
+        localStorage.setItem('language', nextLang);
+        applyTranslations(nextLang);
+        
+        // Dispatch custom global event so other dynamic pages can react to language change
+        window.dispatchEvent(new CustomEvent('languageChanged', { detail: { language: nextLang } }));
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color-rgb: 248, 250, 252;      /* slate-50 */
+  --bg-dark-rgb: 241, 245, 249;       /* slate-100 */
+  --card-bg-rgb: 255, 255, 255;       /* white */
+  --border-color-rgb: 226, 232, 240;   /* slate-200 */
+  --cyber-grid-opacity: 0.15;
+}
+
+html.dark {
+  --bg-color-rgb: 8, 13, 26;          /* cyber-dark */
+  --bg-dark-rgb: 3, 7, 18;            /* cyber-black */
+  --card-bg-rgb: 17, 23, 38;          /* cyber-card */
+  --border-color-rgb: 31, 41, 61;     /* cyber-border */
+  --cyber-grid-opacity: 0.70;
+}
+
+body {
+  background-color: rgb(var(--bg-color-rgb));
+  color: #f8fafc;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cyber-grid {
+  background-image: radial-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: var(--cyber-grid-opacity);
+  transition: opacity 0.4s ease;
+}
+
+/* Light mode overrides for specific text colors to prevent dark mode slate colors from becoming invisible */
+html:not(.dark) .text-slate-100 {
+  color: #0f172a !important; /* dark slate */
+}
+html:not(.dark) .text-slate-200 {
+  color: #1e293b !important;
+}
+html:not(.dark) .text-slate-300 {
+  color: #334155 !important;
+}
+html:not(.dark) .text-slate-400 {
+  color: #475569 !important; /* medium slate */
+}
+html:not(.dark) .text-slate-500 {
+  color: #64748b !important;
+}
+html:not(.dark) .text-slate-600 {
+  color: #94a3b8 !important;
+}
+
+/* Specific component tweaks in light mode to guarantee premium readability */
+html:not(.dark) .bg-slate-900\/60,
+html:not(.dark) .bg-slate-900\/40,
+html:not(.dark) .bg-slate-900\/80 {
+  background-color: rgba(226, 232, 240, 0.85) !important; /* slate-200 with transparency */
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .bg-cyber-dark\/65 {
+  background-color: rgba(248, 250, 252, 0.85) !important; /* transparent white */
+  border-color: #e2e8f0 !important;
+}
+html:not(.dark) .bg-cyber-dark\/80 {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* High-contrast premium card overlays in light mode */
+html:not(.dark) .bg-cyber-card\/45 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Overrides for tool cards (bg-cyber-card/30) in light mode */
+html:not(.dark) .bg-cyber-card\/30 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 8px 24px -6px rgba(15, 23, 42, 0.04) !important;
+}
+
+html:not(.dark) .bg-cyber-card\/30:hover {
+  background-color: #ffffff !important;
+  border-color: #3b82f6 !important; /* Highlight border on hover */
+  box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08) !important;
+}
+
+html:not(.dark) .bg-cyber-card {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+}
+
+html:not(.dark) .text-blue-400 {
+  color: #2563eb !important; /* darker blue for better contrast */
+}
+html:not(.dark) .text-cyan-400 {
+  color: #0891b2 !important; /* darker cyan */
+}
+html:not(.dark) .border-cyber-border {
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) .border-cyber-border\/50 {
+  border-color: #e2e8f0 !important;
+}
+html:not(.dark) .border-cyber-border\/70 {
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) .border-cyber-border\/60 {
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) .border-cyber-border\/40 {
+  border-color: #e2e8f0 !important;
+}
+html:not(.dark) .text-indigo-400 {
+  color: #4f46e5 !important;
+}
+
+/* ==========================================================================
+   Light Mode Prose (Typography) complete adjustments for markdown rendering
+   ========================================================================== */
+html:not(.dark) .prose {
+  color: #334155 !important; /* slate-700 */
+}
+
+/* Override title / headings to slate-900 */
+html:not(.dark) .prose h1,
+html:not(.dark) .prose h2,
+html:not(.dark) .prose h3,
+html:not(.dark) .prose h4 {
+  color: #0f172a !important; /* slate-900 */
+}
+
+/* Explicit overrides for Tailwind typography sub-classes */
+html:not(.dark) .prose-headings\:text-slate-100 * {
+  color: #0f172a !important;
+}
+html:not(.dark) .prose-p\:text-slate-300 p {
+  color: #334155 !important; /* slate-700 for comfortable long-form reading */
+}
+html:not(.dark) .prose-strong\:text-slate-100 strong {
+  color: #0f172a !important; /* bold slate-900 */
+}
+
+/* Bullets override in light mode */
+html:not(.dark) .prose ul > li {
+  color: #334155 !important;
+}
+
+/* Blockquote container override in light mode */
+html:not(.dark) .prose blockquote {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.08), rgba(6, 182, 212, 0.03)) !important;
+  border-left-color: #2563eb !important;
+  color: #475569 !important;
+}
+html:not(.dark) .prose blockquote h3 {
+  color: #0f172a !important;
+}
+
+/* Pre-formatted code blocks wrapper in light mode */
+html:not(.dark) .prose-pre\:border {
+  border-color: #cbd5e1 !important;
+}
+html:not(.dark) .prose-pre\:bg-cyber-card\/30 {
+  background-color: #f8fafc !important;
+}
+html:not(.dark) .prose pre code {
+  color: #1e293b !important;
+}
