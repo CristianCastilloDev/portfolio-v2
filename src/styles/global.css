@@ -2,19 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  *, ::before, ::after {
+    border-color: rgb(var(--border-color-rgb) / 0.4);
+    transition: border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
 :root {
-  --bg-color-rgb: 248, 250, 252;      /* slate-50 */
-  --bg-dark-rgb: 241, 245, 249;       /* slate-100 */
-  --card-bg-rgb: 255, 255, 255;       /* white */
-  --border-color-rgb: 226, 232, 240;   /* slate-200 */
+  --bg-color-rgb: 248 250 252;      /* slate-50 */
+  --bg-dark-rgb: 241 245 249;       /* slate-100 */
+  --card-bg-rgb: 255 255 255;       /* white */
+  --border-color-rgb: 226 232 240;   /* slate-200 */
   --cyber-grid-opacity: 0.15;
 }
 
 html.dark {
-  --bg-color-rgb: 8, 13, 26;          /* cyber-dark */
-  --bg-dark-rgb: 3, 7, 18;            /* cyber-black */
-  --card-bg-rgb: 17, 23, 38;          /* cyber-card */
-  --border-color-rgb: 31, 41, 61;     /* cyber-border */
+  --bg-color-rgb: 8 13 26;          /* cyber-dark */
+  --bg-dark-rgb: 3 7 18;            /* cyber-black */
+  --card-bg-rgb: 17 23 38;          /* cyber-card */
+  --border-color-rgb: 31 41 61;     /* cyber-border */
   --cyber-grid-opacity: 0.70;
 }
 
