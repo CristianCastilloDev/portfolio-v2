@@ -223,6 +223,60 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
   let searchQuery = '';
   let sortAscending = false; // Descending by default (Recent first)
 
+  // Dynamically show/hide tag pills based on the active language of the visible cards
+  function updateTagPillsVisibility() {
+    const activeLang = localStorage.getItem('language') || 'es';
+    
+    // Collect all tags present on cards of the active language
+    const activeTags = new Set();
+    cards.forEach(card => {
+      const cardLang = card.getAttribute('data-lang') || 'es';
+      if (cardLang === activeLang) {
+        const tagsJson = card.getAttribute('data-tags') || '[]';
+        try {
+          const tags = JSON.parse(tagsJson);
+          tags.forEach(t => activeTags.add(t.toLowerCase()));
+        } catch (e) {}
+      }
+    });
+
+    // Show/hide pills based on whether they are in activeTags
+    let activeTagStillValid = activeTag === 'todos';
+    
+    pillButtons.forEach(button => {
+      const tag = button.getAttribute('data-tag') || '';
+      if (tag === 'todos') {
+        button.classList.remove('hidden');
+        button.classList.add('block');
+      } else if (activeTags.has(tag)) {
+        button.classList.remove('hidden');
+        button.classList.add('block');
+        if (tag === activeTag) {
+          activeTagStillValid = true;
+        }
+      } else {
+        button.classList.remove('block');
+        button.classList.add('hidden');
+      }
+    });
+
+    // If selected tag is no longer valid for this language, fallback to 'todos'
+    if (!activeTagStillValid) {
+      activeTag = 'todos';
+      // Highlight the "Todos" pill and reset others
+      pillButtons.forEach(btn => {
+        const tag = btn.getAttribute('data-tag') || '';
+        if (tag === 'todos') {
+          btn.classList.remove('bg-slate-900/60', 'text-slate-400', 'border-cyber-border');
+          btn.classList.add('bg-blue-500/10', 'text-blue-400', 'border-blue-500/30', 'active-pill');
+        } else {
+          btn.classList.remove('bg-blue-500/10', 'text-blue-400', 'border-blue-500/30', 'active-pill');
+          btn.classList.add('bg-slate-900/60', 'text-slate-400', 'border-cyber-border');
+        }
+      });
+    }
+  }
+
   function filterCards() {
     let visibleCount = 0;
     const activeLang = localStorage.getItem('language') || 'es';
@@ -287,6 +341,7 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
   // Handle global language changes to translate sorting dynamic labels and re-filter list
   window.addEventListener('languageChanged', () => {
     updateSortText();
+    updateTagPillsVisibility();
     filterCards();
   });
 
@@ -345,5 +400,6 @@ const tags = ["Todos", ...new Set(sortedPosts.flatMap(post => post.data.tags || 
 
   // Run initial sort translation sync and filters on load
   updateSortText();
+  updateTagPillsVisibility();
   filterCards();
 </script>
