@@ -176,3 +176,13 @@ html:not(.dark) .prose-pre\:bg-cyber-card\/30 {
 html:not(.dark) .prose pre code {
   color: #1e293b !important;
 }
+
+/* Custom utility to fully hide browser scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
