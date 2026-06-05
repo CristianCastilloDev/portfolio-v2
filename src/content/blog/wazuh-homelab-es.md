@@ -42,3 +42,28 @@ Levantar el servidor central hoy en día es increíblemente eficiente gracias al
 ```bash
 curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 ```
+
+Una vez terminado el proceso, el script me arrojó mis credenciales de administrador y pude acceder a la interfaz web (Dashboard) a través de mi navegador web local.
+
+## 3. Desplegando mi primer Agente y Cazando Alertas
+
+Con el panel central funcionando, el verdadero valor llega cuando conectas tus sistemas. Desde el propio panel de Wazuh, generé un comando de instalación para mi servidor Docker.
+
+Me conecté por SSH a mi contenedor de Docker y ejecuté el comando generado. En cuestión de segundos, mi servidor apareció como "Activo" en el panel principal. Inmediatamente, Wazuh comenzó a escanear el sistema y a enviarme los primeros reportes.
+
+### ¿Qué descubrí el primer día?
+*   **Auditoría de Root:** Wazuh detectó y me alertó cada vez que utilicé el comando `sudo` para realizar mantenimientos en Docker.
+*   **Análisis de Vulnerabilidades:** Realizó un inventario de los paquetes instalados en el sistema operativo del contenedor y me generó un listado de dependencias desactualizadas que debían parchearse.
+*   **Monitorización SSH:** Configuró alertas críticas por si algún equipo externo intentaba hacer fuerza bruta sobre el puerto 22.
+
+> [!TIP]
+> ### Visualización de Alertas y Eventos
+> A continuación se muestra una captura en tiempo real de mi panel de Wazuh, donde se puede apreciar el estado de los agentes activos y el volumen de eventos de seguridad recolectados en las últimas 24 horas:
+> ![Wazuh Dashboard](/images/wazuh_dashboard.png)
+
+## Conclusión y Siguientes Pasos
+
+Implementar Wazuh transforma un HomeLab estático en un entorno de seguridad vivo. Pasas de simplemente "alojar servicios" a gestionar y defender una infraestructura. Estudiar la teoría sobre la monitorización activa para el Security+ es útil, pero auditar tus propios contenedores en tiempo real te da un conocimiento técnico que no se olvida.
+
+El siguiente objetivo en mi ruta de Blue Team será conectar este SIEM a herramientas de automatización. Por ejemplo, me gustaría configurar Wazuh para que, si detecta múltiples intentos de inicio de sesión fallidos, bloquee automáticamente la IP del atacante mediante reglas de firewall en Proxmox o notifique directamente a un bot de Telegram.
+

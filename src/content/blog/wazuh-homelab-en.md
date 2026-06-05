@@ -42,3 +42,28 @@ Setting up the central server today is incredibly efficient thanks to the unatte
 ```bash
 curl -sO https://packages.wazuh.com/4.x/wazuh-install.sh && sudo bash ./wazuh-install.sh -a
 ```
+
+Once the process was finished, the script provided my administrator credentials, and I was able to access the web interface (Dashboard) through my local web browser.
+
+## 3. Deploying My First Agent and Hunting Alerts
+
+With the central dashboard running, the real value comes when you connect your systems. From the Wazuh panel itself, I generated an installation command for my Docker server.
+
+I connected via SSH to my Docker container and ran the generated command. In a matter of seconds, my server appeared as "Active" on the main panel. Immediately, Wazuh started scanning the system and sending me the first reports.
+
+### What did I discover on day one?
+*   **Root Auditing:** Wazuh detected and alerted me every time I used the `sudo` command to perform maintenance tasks in Docker.
+*   **Vulnerability Analysis:** It performed an inventory of the installed packages on the container's operating system and generated a list of outdated dependencies that needed to be patched.
+*   **SSH Monitoring:** It configured critical alerts in case any external device attempted to perform a brute-force attack on port 22.
+
+> [!TIP]
+> ### Alerts and Events Visualization
+> Below is a real-time capture of my Wazuh dashboard, displaying the status of active agents and the volume of security events collected over the last 24 hours:
+> ![Wazuh Dashboard](/images/wazuh_dashboard.png)
+
+## Conclusion and Next Steps
+
+Deploying Wazuh transforms a static HomeLab into a living security environment. You go from simply "hosting services" to managing and defending an infrastructure. Studying the theory of active monitoring for Security+ is helpful, but auditing your own containers in real-time gives you a technical understanding that you won't forget.
+
+The next goal on my Blue Team roadmap is to connect this SIEM to automation tools. For instance, I would like to configure Wazuh so that if it detects multiple failed login attempts, it automatically blocks the attacker's IP using firewall rules in Proxmox or notifies me directly via a Telegram bot.
+
