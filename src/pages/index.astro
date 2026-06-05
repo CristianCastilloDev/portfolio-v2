@@ -6,7 +6,81 @@ import { withBase } from '../utils/paths';
 // Fetch the blog collection to display featured resources
 const posts = await getCollection('blog');
 const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
-// We pass all posts to let client-side filter handle showing the top 3 of the active language!
+
+const certifications = [
+  {
+    badge: 'SECURITY',
+    badgeClass: 'text-blue-400 border-blue-500/25',
+    image: '/images/cert_security_plus.png',
+    alt: 'CompTIA Security+',
+    titleKey: 'cert-sec-title',
+    descKey: 'cert-sec-desc',
+    dateKey: 'cert-date-sec',
+    dateEs: 'En preparación',
+    issuer: 'CompTIA',
+    statusKey: 'cert-status-preparing',
+    statusClass: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
+    modalTitle: 'CompTIA Security+',
+    modalDesc: 'Código de validación: SEC-9948271',
+    verifyLink: 'https://www.credly.com/',
+    downloadHref: '/images/cert_security_plus.png',
+    downloadName: 'Cristian_Castillo_Security_Plus.png',
+  },
+  {
+    badge: 'SECURITY',
+    badgeClass: 'text-blue-400 border-blue-500/25',
+    image: '/images/cert_cisco_network_security.png',
+    alt: 'Cisco Network Security',
+    titleKey: 'cert-cisco-ns-title',
+    descKey: 'cert-cisco-ns-desc',
+    dateKey: 'cert-date-ns',
+    dateEs: '08 Ago 2023',
+    issuer: 'Cisco NetAcad',
+    statusKey: 'cert-status-complete',
+    statusClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    modalTitle: 'Cisco Network Security',
+    modalDesc: 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy',
+    verifyLink: 'https://www.credly.com/badges/f4eb4576-9557-4d9d-979c-a0c7774e9d3c',
+    downloadHref: '/images/cert_cisco_network_security.pdf',
+    downloadName: 'Cristian_Castillo_Cisco_Network_Security.pdf',
+  },
+  {
+    badge: 'NETWORKING',
+    badgeClass: 'text-blue-400 border-blue-500/25',
+    image: '/images/cert_cisco_ccna.png',
+    alt: 'CCNA Switching, Routing, and Wireless Essentials',
+    titleKey: 'cert-ccna-title',
+    descKey: 'cert-ccna-desc',
+    dateKey: 'cert-date-ccna',
+    dateEs: '12 Dic 2021',
+    issuer: 'Cisco NetAcad',
+    statusKey: 'cert-status-complete',
+    statusClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    modalTitle: 'CCNA: Switching, Routing, and Wireless Essentials',
+    modalDesc: 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy',
+    verifyLink: 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b',
+    downloadHref: '/images/cert_cisco_ccna.pdf',
+    downloadName: 'Cristian_Castillo_CCNA_Switching_Routing_Wireless.pdf',
+  },
+  {
+    badge: 'IOT',
+    badgeClass: 'text-cyan-400 border-cyan-500/25',
+    image: '/images/cert_cisco_iot.png',
+    alt: 'Introduction to IoT',
+    titleKey: 'cert-cisco-iot-title',
+    descKey: 'cert-cisco-iot-desc',
+    dateKey: 'cert-date-iot',
+    dateEs: '06 Dic 2020',
+    issuer: 'Cisco NetAcad',
+    statusKey: 'cert-status-complete',
+    statusClass: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
+    modalTitle: 'Introduction to IoT',
+    modalDesc: 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy',
+    verifyLink: 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b',
+    downloadHref: '/images/cert_cisco_iot.pdf',
+    downloadName: 'Cristian_Castillo_Introduction_to_IoT.pdf',
+  },
+];
 ---
 
 <Layout>
@@ -196,273 +270,102 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
         </div>
       </div>
 
-      <!-- Certifications Grid with same styles as blog cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-        <!-- Cert 1: CompTIA Security+ -->
-        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
-          <!-- Image cover -->
-          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
-            <img 
-              src={withBase('/images/cert_security_plus.png')} 
-              alt="CompTIA Security+"
-              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
-            />
-            
-            <!-- Hover overlay showing inspect button -->
-            <button 
-              onclick="openCertModal('CompTIA Security+', '/images/cert_security_plus.png', 'Código de validación: SEC-9948271', 'https://www.credly.com/')" 
-              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
-            >
-              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                <!-- Eye SVG for inspection -->
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </div>
-            </button>
+      <p class="text-xs font-mono text-slate-500 tracking-wide" data-key="cert-carousel-hint">
+        ← Más reciente · Más antiguo →
+      </p>
 
-            <!-- Badge -->
-            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
-              SECURITY
-            </span>
-          </div>
-
-          <!-- Content wrapper -->
-          <div class="p-6 flex flex-col flex-grow space-y-4">
-            <div class="flex-grow space-y-2">
-              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-sec-title">
-                CompTIA Security+
-              </h3>
-              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-sec-desc">
-                Certificación internacional que valida las habilidades fundamentales para realizar funciones de seguridad centrales y seguir una carrera en seguridad de TI.
-              </p>
-            </div>
-
-            <!-- Footer Meta -->
-            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
-              <span class="text-slate-500">CompTIA</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 tracking-wider" data-key="cert-status-preparing">
-                PREPARANDO
-              </span>
-            </div>
-          </div>
-
-          <!-- Dedicated action button -->
-          <div class="px-6 pb-6 pt-1 flex gap-3">
-            <button 
-              onclick="openCertModal('CompTIA Security+', '/images/cert_security_plus.png', 'Código de validación: SEC-9948271', 'https://www.credly.com/')"
-              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
-              data-key="cert-btn-view"
-            >
-              Inspeccionar
-            </button>
-            <a 
-              href={withBase('/images/cert_security_plus.png')} 
-              download="Cristian_Castillo_Security_Plus.png"
-              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
-              title="Descargar Certificado"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </a>
+      <div class="relative">
+        <div id="cert-carousel-viewport" class="overflow-hidden rounded-3xl">
+          <div id="cert-carousel-track" class="flex transition-transform duration-500 ease-out will-change-transform">
+            {certifications.map((cert) => (
+              <article class="cert-slide w-full flex-shrink-0">
+                <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full mx-1">
+                  <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
+                    <img
+                      src={withBase(cert.image)}
+                      alt={cert.alt}
+                      class="w-full h-full object-cover object-top group-hover/img:scale-105 transition-transform duration-700 ease-out"
+                    />
+                    <button
+                      type="button"
+                      onclick={`openCertModal('${cert.modalTitle}', '${cert.image}', '${cert.modalDesc}', '${cert.verifyLink}', '${cert.downloadHref}', '${cert.downloadName}')`}
+                      class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
+                    >
+                      <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                        </svg>
+                      </div>
+                    </button>
+                    <span class={`absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 border rounded-md backdrop-blur-sm uppercase z-10 ${cert.badgeClass}`}>
+                      {cert.badge}
+                    </span>
+                    <span class="absolute top-4 right-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-slate-950/85 text-slate-200 border border-cyber-border/50 rounded-md backdrop-blur-sm z-10" data-key={cert.dateKey}>{cert.dateEs}</span>
+                  </div>
+                  <div class="p-6 flex flex-col flex-grow space-y-4">
+                    <div class="flex-grow space-y-2">
+                      <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key={cert.titleKey}></h3>
+                      <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key={cert.descKey}></p>
+                    </div>
+                    <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
+                      <span class="text-slate-500">{cert.issuer}</span>
+                      <span class={`px-2 py-0.5 rounded text-[10px] font-bold border tracking-wider ${cert.statusClass}`} data-key={cert.statusKey}></span>
+                    </div>
+                  </div>
+                  <div class="px-6 pb-6 pt-1 flex gap-3">
+                    <button
+                      type="button"
+                      onclick={`openCertModal('${cert.modalTitle}', '${cert.image}', '${cert.modalDesc}', '${cert.verifyLink}', '${cert.downloadHref}', '${cert.downloadName}')`}
+                      class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
+                      data-key="cert-btn-view"
+                    >
+                      Inspeccionar
+                    </button>
+                    <a
+                      href={withBase(cert.downloadHref)}
+                      download={cert.downloadName}
+                      class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
+                      title="Descargar Certificado"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
 
-        <!-- Cert 2: Cisco Network Security -->
-        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
-          <!-- Image cover -->
-          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
-            <img 
-              src={withBase('/images/cert_cisco_network_security.png')} 
-              alt="Cisco Network Security"
-              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
-            />
-            
-            <!-- Hover overlay showing inspect button -->
-            <button 
-              onclick="openCertModal('Cisco Network Security', '/images/cert_cisco_network_security.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/f4eb4576-9557-4d9d-979c-a0c7774e9d3c', '/images/cert_cisco_network_security.pdf', 'Cristian_Castillo_Cisco_Network_Security.pdf')" 
-              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
-            >
-              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                <!-- Eye SVG for inspection -->
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </div>
-            </button>
+        <div class="mt-6 flex items-center justify-between gap-4">
+          <button
+            id="cert-carousel-prev"
+            type="button"
+            class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:border-cyber-border/60 disabled:hover:bg-cyber-card disabled:hover:text-slate-300"
+            aria-label="Certificación más reciente"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span data-key="cert-btn-prev">Anterior</span>
+          </button>
 
-            <!-- Badge -->
-            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
-              SECURITY
-            </span>
-          </div>
+          <span id="cert-carousel-counter" class="text-xs font-mono text-slate-500 tabular-nums">1 / {certifications.length}</span>
 
-          <!-- Content wrapper -->
-          <div class="p-6 flex flex-col flex-grow space-y-4">
-            <div class="flex-grow space-y-2">
-              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-cisco-ns-title">
-                Network Security — Cisco Networking Academy
-              </h3>
-              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-cisco-ns-desc">
-                Certificado de finalización del curso de Seguridad de Redes. Cubre amenazas a infraestructuras modernas, hardening de routers Cisco, ACLs, firewalls IOS/ASA, VPNs IPsec site-to-site y políticas Zone-Based.
-              </p>
-            </div>
-
-            <!-- Footer Meta -->
-            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
-              <span class="text-slate-500">Cisco NetAcad</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider" data-key="cert-status-complete">
-                COMPLETO
-              </span>
-            </div>
-          </div>
-
-          <!-- Dedicated action button -->
-          <div class="px-6 pb-6 pt-1 flex gap-3">
-            <button 
-              onclick="openCertModal('Cisco Network Security', '/images/cert_cisco_network_security.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/f4eb4576-9557-4d9d-979c-a0c7774e9d3c', '/images/cert_cisco_network_security.pdf', 'Cristian_Castillo_Cisco_Network_Security.pdf')"
-              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
-              data-key="cert-btn-view"
-            >
-              Inspeccionar
-            </button>
-            <a 
-              href={withBase('/images/cert_cisco_network_security.pdf')} 
-              download="Cristian_Castillo_Cisco_Network_Security.pdf"
-              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
-              title="Descargar Certificado"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </a>
-          </div>
+          <button
+            id="cert-carousel-next"
+            type="button"
+            class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:border-cyber-border/60 disabled:hover:bg-cyber-card disabled:hover:text-slate-300"
+            aria-label="Certificación más antigua"
+          >
+            <span data-key="cert-btn-next">Siguiente</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
         </div>
-
-        <!-- Cert 3: CCNA Switching, Routing, and Wireless Essentials -->
-        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
-          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
-            <img 
-              src={withBase('/images/cert_cisco_ccna.png')} 
-              alt="CCNA Switching, Routing, and Wireless Essentials"
-              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
-            />
-            <button 
-              onclick="openCertModal('CCNA: Switching, Routing, and Wireless Essentials', '/images/cert_cisco_ccna.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b', '/images/cert_cisco_ccna.pdf', 'Cristian_Castillo_CCNA_Switching_Routing_Wireless.pdf')" 
-              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
-            >
-              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </div>
-            </button>
-            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
-              NETWORKING
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-grow space-y-4">
-            <div class="flex-grow space-y-2">
-              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-ccna-title">
-                CCNA: Switching, Routing, and Wireless Essentials
-              </h3>
-              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-ccna-desc">
-                Curso de Cisco Networking Academy sobre conmutación LAN, enrutamiento IPv4/IPv6, VLANs, STP y fundamentos de redes inalámbricas empresariales.
-              </p>
-            </div>
-            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
-              <span class="text-slate-500">Cisco NetAcad</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider" data-key="cert-status-complete">
-                COMPLETO
-              </span>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-1 flex gap-3">
-            <button 
-              onclick="openCertModal('CCNA: Switching, Routing, and Wireless Essentials', '/images/cert_cisco_ccna.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b', '/images/cert_cisco_ccna.pdf', 'Cristian_Castillo_CCNA_Switching_Routing_Wireless.pdf')"
-              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
-              data-key="cert-btn-view"
-            >
-              Inspeccionar
-            </button>
-            <a 
-              href={withBase('/images/cert_cisco_ccna.pdf')} 
-              download="Cristian_Castillo_CCNA_Switching_Routing_Wireless.pdf"
-              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
-              title="Descargar Certificado"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Cert 4: Introduction to IoT -->
-        <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
-          <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
-            <img 
-              src={withBase('/images/cert_cisco_iot.png')} 
-              alt="Introduction to IoT"
-              class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
-            />
-            <button 
-              onclick="openCertModal('Introduction to IoT', '/images/cert_cisco_iot.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b', '/images/cert_cisco_iot.pdf', 'Cristian_Castillo_Introduction_to_IoT.pdf')" 
-              class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
-            >
-              <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
-              </div>
-            </button>
-            <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-cyan-400 border border-cyan-500/25 rounded-md backdrop-blur-sm uppercase z-10">
-              IOT
-            </span>
-          </div>
-          <div class="p-6 flex flex-col flex-grow space-y-4">
-            <div class="flex-grow space-y-2">
-              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-cisco-iot-title">
-                Introduction to IoT — Cisco Networking Academy
-              </h3>
-              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-cisco-iot-desc">
-                Curso introductorio sobre el Internet de las Cosas: conectividad, automatización, impacto en industrias y fundamentos de redes para dispositivos IoT.
-              </p>
-            </div>
-            <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
-              <span class="text-slate-500">Cisco NetAcad</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider" data-key="cert-status-complete">
-                COMPLETO
-              </span>
-            </div>
-          </div>
-          <div class="px-6 pb-6 pt-1 flex gap-3">
-            <button 
-              onclick="openCertModal('Introduction to IoT', '/images/cert_cisco_iot.png', 'Universidad Politécnica de Sinaloa · México · Cisco Networking Academy', 'https://www.credly.com/badges/0ee27884-652a-4003-972c-a75cade02d6b', '/images/cert_cisco_iot.pdf', 'Cristian_Castillo_Introduction_to_IoT.pdf')"
-              class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
-              data-key="cert-btn-view"
-            >
-              Inspeccionar
-            </button>
-            <a 
-              href={withBase('/images/cert_cisco_iot.pdf')} 
-              download="Cristian_Castillo_Introduction_to_IoT.pdf"
-              class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
-              title="Descargar Certificado"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </a>
-          </div>
-        </div>
-
       </div>
     </section>
 
@@ -694,6 +597,42 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
   window.addEventListener('languageChanged', () => {
     filterFeaturedCards();
   });
+
+  const certTrack = document.getElementById('cert-carousel-track');
+  const certSlides = certTrack ? Array.from(certTrack.querySelectorAll('.cert-slide')) : [];
+  const certPrev = document.getElementById('cert-carousel-prev') as HTMLButtonElement | null;
+  const certNext = document.getElementById('cert-carousel-next') as HTMLButtonElement | null;
+  const certCounter = document.getElementById('cert-carousel-counter');
+  let certIndex = 0;
+
+  function updateCertCarousel() {
+    if (!certTrack || certSlides.length === 0) return;
+
+    certTrack.style.transform = `translateX(-${certIndex * 100}%)`;
+
+    if (certCounter) {
+      certCounter.textContent = `${certIndex + 1} / ${certSlides.length}`;
+    }
+
+    if (certPrev) certPrev.disabled = certIndex === 0;
+    if (certNext) certNext.disabled = certIndex === certSlides.length - 1;
+  }
+
+  certPrev?.addEventListener('click', () => {
+    if (certIndex > 0) {
+      certIndex -= 1;
+      updateCertCarousel();
+    }
+  });
+
+  certNext?.addEventListener('click', () => {
+    if (certIndex < certSlides.length - 1) {
+      certIndex += 1;
+      updateCertCarousel();
+    }
+  });
+
+  updateCertCarousel();
 
   // Modal toggle scripts attached to window securely for global access
   (window as any).openCertModal = function(title: string, imgSrc: string, desc: string, verifyLink: string, downloadSrc?: string, downloadName?: string) {
