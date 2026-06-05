@@ -271,19 +271,19 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
           </div>
         </div>
 
-        <!-- Cert 2: Cisco CCNA -->
+        <!-- Cert 2: Cisco Network Security -->
         <div class="group relative bg-cyber-card/45 backdrop-blur-sm border border-cyber-border/70 rounded-3xl overflow-hidden shadow-[0_4px_25px_rgba(3,7,18,0.45)] hover:shadow-[0_12px_35px_rgba(59,130,246,0.15)] hover:border-blue-500/30 transition-all duration-500 flex flex-col h-full">
           <!-- Image cover -->
           <div class="relative w-full aspect-video overflow-hidden bg-slate-950 border-b border-cyber-border/50 group/img">
             <img 
-              src={withBase('/images/cert_ccna.png')} 
-              alt="Cisco CCNA"
+              src={withBase('/images/cert_cisco_network_security.png')} 
+              alt="Cisco Network Security"
               class="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700 ease-out"
             />
             
             <!-- Hover overlay showing inspect button -->
             <button 
-              onclick="openCertModal('Cisco CCNA (200-301)', '/images/cert_ccna.png', 'Código de validación: CCNA-8849201', 'https://www.credly.com/')" 
+              onclick="openCertModal('Cisco Network Security', '/images/cert_cisco_network_security.png', 'Universidad Politécnica de Sinaloa · México · Completado el 07/08/2023 · Instructor: Alberto Morales Colado', 'https://www.netacad.com/', '/images/CRISTIAN ADELMOCASTILLO RENDON-NS-91-2023-certificate.pdf', 'Cristian_Castillo_Cisco_Network_Security.pdf')" 
               class="absolute inset-0 bg-slate-950/60 opacity-0 group-hover/img:opacity-100 transition-opacity duration-300 flex items-center justify-center cursor-pointer"
             >
               <div class="w-12 h-12 rounded-full bg-blue-500 text-white flex items-center justify-center transform translate-y-4 group-hover/img:translate-y-0 transition-all duration-300 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
@@ -297,24 +297,24 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
 
             <!-- Badge -->
             <span class="absolute top-4 left-4 px-2.5 py-1 text-[10px] font-bold font-mono tracking-wider bg-cyber-dark/85 text-blue-400 border border-blue-500/25 rounded-md backdrop-blur-sm uppercase z-10">
-              NETWORKING
+              SECURITY
             </span>
           </div>
 
           <!-- Content wrapper -->
           <div class="p-6 flex flex-col flex-grow space-y-4">
             <div class="flex-grow space-y-2">
-              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-ccna-title">
-                Cisco Certified Network Associate (CCNA)
+              <h3 class="font-display text-lg font-bold text-slate-100 group-hover:text-blue-400 transition-colors duration-300" data-key="cert-cisco-ns-title">
+                Network Security — Cisco Networking Academy
               </h3>
-              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-ccna-desc">
-                Certificación que cubre una amplia gama de fundamentos de TI, incluyendo tecnologías IP, seguridad, enrutamiento, conmutación y automatización de redes.
+              <p class="text-slate-400 text-xs md:text-sm font-light leading-relaxed" data-key="cert-cisco-ns-desc">
+                Certificado de finalización del curso de Seguridad de Redes. Cubre amenazas a infraestructuras modernas, hardening de routers Cisco, ACLs, firewalls IOS/ASA, VPNs IPsec site-to-site y políticas Zone-Based.
               </p>
             </div>
 
             <!-- Footer Meta -->
             <div class="flex items-center justify-between text-xs font-mono border-t border-cyber-border/30 pt-4 mt-auto">
-              <span class="text-slate-500">Cisco</span>
+              <span class="text-slate-500">Cisco NetAcad</span>
               <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 tracking-wider" data-key="cert-status-complete">
                 COMPLETO
               </span>
@@ -324,15 +324,15 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
           <!-- Dedicated action button -->
           <div class="px-6 pb-6 pt-1 flex gap-3">
             <button 
-              onclick="openCertModal('Cisco CCNA (200-301)', '/images/cert_ccna.png', 'Código de validación: CCNA-8849201', 'https://www.credly.com/')"
+              onclick="openCertModal('Cisco Network Security', '/images/cert_cisco_network_security.png', 'Universidad Politécnica de Sinaloa · México · Completado el 07/08/2023 · Instructor: Alberto Morales Colado', 'https://www.netacad.com/', '/images/CRISTIAN ADELMOCASTILLO RENDON-NS-91-2023-certificate.pdf', 'Cristian_Castillo_Cisco_Network_Security.pdf')"
               class="flex-1 py-2.5 text-center text-sm font-semibold bg-cyber-card border border-cyber-border/60 hover:border-blue-500/50 hover:bg-slate-900 hover:text-blue-400 transition-all rounded-xl text-slate-300 cursor-pointer"
               data-key="cert-btn-view"
             >
               Inspeccionar
             </button>
             <a 
-              href={withBase('/images/cert_ccna.png')} 
-              download="Cristian_Castillo_CCNA.png"
+              href={withBase('/images/CRISTIAN ADELMOCASTILLO RENDON-NS-91-2023-certificate.pdf')} 
+              download="Cristian_Castillo_Cisco_Network_Security.pdf"
               class="px-4 py-2.5 flex items-center justify-center bg-slate-900 border border-cyber-border/60 hover:border-emerald-500/50 hover:bg-emerald-500/10 hover:text-emerald-400 transition-all rounded-xl text-slate-300"
               title="Descargar Certificado"
             >
@@ -576,7 +576,7 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
   });
 
   // Modal toggle scripts attached to window securely for global access
-  (window as any).openCertModal = function(title: string, imgSrc: string, desc: string, verifyLink: string) {
+  (window as any).openCertModal = function(title: string, imgSrc: string, desc: string, verifyLink: string, downloadSrc?: string, downloadName?: string) {
     const modal = document.getElementById('cert-modal');
     const modalContent = modal?.querySelector('div');
     const mTitle = document.getElementById('modal-cert-title');
@@ -589,10 +589,14 @@ const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDa
       if (mTitle) mTitle.textContent = title;
       if (mImg) mImg.src = imgSrc;
       if (mDesc) mDesc.textContent = desc;
-      if (mVerify) mVerify.href = verifyLink;
+      if (mVerify) {
+        mVerify.href = verifyLink;
+        mVerify.classList.toggle('hidden', !verifyLink);
+      }
       if (mDownload) {
-        mDownload.href = imgSrc;
-        mDownload.setAttribute('download', `${title.replace(/\s+/g, '_')}.png`);
+        const fileSrc = downloadSrc || imgSrc;
+        mDownload.href = fileSrc;
+        mDownload.setAttribute('download', downloadName || `${title.replace(/\s+/g, '_')}.png`);
       }
 
       modal.classList.remove('hidden');
